@@ -6,7 +6,7 @@ from faker import Faker
 fake = Faker()
 
 
-class RegisterUser:
+class FakeUserData:
     @staticmethod
     def random():
         username = fake.email()
