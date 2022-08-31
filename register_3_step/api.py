@@ -1,4 +1,3 @@
-# api.py
 import logging
 from jsonschema import validate
 
