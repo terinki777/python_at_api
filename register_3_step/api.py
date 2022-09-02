@@ -1,4 +1,5 @@
 import logging
+
 from jsonschema import validate
 
 from register_3_step.requests import Client
@@ -36,53 +37,47 @@ class SwaggerStore:
         logger.info(response.text)
         return ResponseModel(status=response.status_code, response=response.json())
 
-    def add_user_info(self, user_id, body: dict, headers, schema: dict):
+    def add_user_info(self, user_id, body: dict, schema: dict, token):
         """
         https://app.swaggerhub.com/apis-docs/berpress/flask-rest-api/1.0.0#/user_info
         """
-        authorization = {"Authorization": f"JWT {headers}"}
         response = self.client.custom_request("POST", f"{self.url}{self.POST_USER_INFO}{user_id}",
-                                              json=body, headers=authorization)
+                                              headers=token, json=body)
 
         validate(instance=response.json(), schema=schema)
         logger.info(response.text)
         return ResponseModel(status=response.status_code, response=response.json())
 
-    def add_new_store(self, store, body, headers):
+    def add_new_store(self, store, body, token):
         """
         https://app.swaggerhub.com/apis-docs/berpress/flask-rest-api/1.0.0#/user_info
         """
-        authorization = {"Authorization": f"JWT {headers}"}
-        response = self.client.custom_request("POST", f"{self.url}{self._STORE}{store}",
-                                              json=body, headers=authorization)
+        response = self.client.custom_request("POST", f"{self.url}{self._STORE}{store}", headers=token,
+                                              json=body)
         logger.info(response.text)
         return ResponseModel(status=response.status_code, response=response.json())
 
-    def get_store(self, store, headers):
+    def get_store(self, store, token):
         """
         https://app.swaggerhub.com/apis-docs/berpress/flask-rest-api/1.0.0#/user_info
         """
-        authorization = {"Authorization": f"JWT {headers}"}
-        response = self.client.custom_request("GET", f"{self.url}{self._STORE}{store}",
-                                              headers=authorization)
+        response = self.client.custom_request("GET", f"{self.url}{self._STORE}{store}", headers=token)
         logger.info(response.text)
         return ResponseModel(status=response.status_code, response=response.json())
 
-    def post_item(self, name_item, body: dict, headers):
+    def post_item(self, name_item, body: dict, token):
         """
         https://app.swaggerhub.com/apis-docs/berpress/flask-rest-api/1.0.0#/user_info
         """
-        authorization = {"Authorization": f"JWT {headers}"}
         response = self.client.custom_request("POST", f"{self.url}{self.POST_STORE_ITEM}{name_item}",
-                                              json=body, headers=authorization)
+                                              headers=token, json=body)
         logger.info(response.text)
         return ResponseModel(status=response.status_code, response=response.json())
 
-    def get_all_items(self, headers):
+    def get_all_items(self, token):
         """
         https://app.swaggerhub.com/apis-docs/berpress/flask-rest-api/1.0.0#/user_info
         """
-        authorization = {"Authorization": f"JWT {headers}"}
-        response = self.client.custom_request("GET", f"{self.url}{self.GET_ALL_ITEMS}", headers=authorization)
+        response = self.client.custom_request("GET", f"{self.url}{self.GET_ALL_ITEMS}", headers=token)
         logger.info(response.text)
         return ResponseModel(status=response.status_code, response=response.json())
