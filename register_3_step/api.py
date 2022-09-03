@@ -42,7 +42,7 @@ class SwaggerStore:
         https://app.swaggerhub.com/apis-docs/berpress/flask-rest-api/1.0.0#/user_info
         """
         response = self.client.custom_request("POST", f"{self.url}{self.POST_USER_INFO}{user_id}",
-                                              headers=token, json=body)
+                                              headers={"Authorization": f"JWT {token}"}, json=body)
 
         validate(instance=response.json(), schema=schema)
         logger.info(response.text)
@@ -52,7 +52,8 @@ class SwaggerStore:
         """
         https://app.swaggerhub.com/apis-docs/berpress/flask-rest-api/1.0.0#/user_info
         """
-        response = self.client.custom_request("POST", f"{self.url}{self._STORE}{store}", headers=token,
+        response = self.client.custom_request("POST", f"{self.url}{self._STORE}{store}",
+                                              headers={"Authorization": f"JWT {token}"},
                                               json=body)
         logger.info(response.text)
         return ResponseModel(status=response.status_code, response=response.json())
@@ -61,7 +62,8 @@ class SwaggerStore:
         """
         https://app.swaggerhub.com/apis-docs/berpress/flask-rest-api/1.0.0#/user_info
         """
-        response = self.client.custom_request("GET", f"{self.url}{self._STORE}{store}", headers=token)
+        response = self.client.custom_request("GET", f"{self.url}{self._STORE}{store}",
+                                              headers={"Authorization": f"JWT {token}"})
         logger.info(response.text)
         return ResponseModel(status=response.status_code, response=response.json())
 
@@ -70,7 +72,7 @@ class SwaggerStore:
         https://app.swaggerhub.com/apis-docs/berpress/flask-rest-api/1.0.0#/user_info
         """
         response = self.client.custom_request("POST", f"{self.url}{self.POST_STORE_ITEM}{name_item}",
-                                              headers=token, json=body)
+                                              headers={"Authorization": f"JWT {token}"}, json=body)
         logger.info(response.text)
         return ResponseModel(status=response.status_code, response=response.json())
 
@@ -78,6 +80,7 @@ class SwaggerStore:
         """
         https://app.swaggerhub.com/apis-docs/berpress/flask-rest-api/1.0.0#/user_info
         """
-        response = self.client.custom_request("GET", f"{self.url}{self.GET_ALL_ITEMS}", headers=token)
+        response = self.client.custom_request("GET", f"{self.url}{self.GET_ALL_ITEMS}",
+                                              headers={"Authorization": f"JWT {token}"})
         logger.info(response.text)
         return ResponseModel(status=response.status_code, response=response.json())

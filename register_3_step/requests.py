@@ -15,4 +15,4 @@ class Client:
             json – (optional) A JSON serializable Python object to send in the body of the Request. # noqa
             headers – (optional) Dictionary of HTTP Headers to send with the Request.
         """
-        return requests.request(method, url, headers={"Authorization": f"JWT {headers}"}, **kwargs)
+        return requests.request(method, url, headers=headers, **kwargs)
