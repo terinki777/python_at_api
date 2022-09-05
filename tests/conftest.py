@@ -9,8 +9,8 @@ URL = "https://stores-tests-api.herokuapp.com"
 @pytest.fixture(scope="session")
 def reg_auth():
     body = FakeUserData.random()
-    response_reg = SwaggerStore(url=URL).register_user(body=body, schema=valid_schema)
-    response_auth = SwaggerStore(url=URL).auth_user(body=body)
+    response_reg = SwaggerStore().register_user(body=body, schema=valid_schema)
+    response_auth = SwaggerStore().auth_user(body=body)
     access_token = response_auth.response.get('access_token')
     uuid = response_reg.response.get('uuid')
     assert response_auth.status == 200
